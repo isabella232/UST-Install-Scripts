@@ -7,4 +7,10 @@ obj/
 required_resources.wxs
 USTCustomActions.CA.dll
 
-files/
+Managed/
+examples/
+Certgen/
+Notepad++/
+Adobe.UST.Configuration.App.exe
+*.yml
+Run_*

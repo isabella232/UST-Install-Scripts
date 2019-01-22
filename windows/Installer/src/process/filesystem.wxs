@@ -65,6 +65,12 @@
           Icon="CertgenIcon"
           Target="[INSTALLDIR]\Utils\Certgen\AdobeIOCertgen.exe">
         </Shortcut>
+
+        <Shortcut Id="LDPShortcut"
+          Name="LDP Client"
+          Icon="LDPIcon"
+          Target="[INSTALLDIR]\Utils\LDP Client\ldp.exe">
+        </Shortcut>
       </Component>
     </DirectoryRef>
 

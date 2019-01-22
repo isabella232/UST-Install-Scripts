@@ -41,7 +41,8 @@
     <Icon Id="CFGAppIcon" SourceFile="..\..\..\images\configapp-logo.ico"/>
     <Icon Id="EditIcon" SourceFile="..\..\..\images\edit-yaml.ico"/>
     <Icon Id="CertgenIcon" SourceFile="..\..\..\images\certgen.ico"/>
-    
+    <Icon Id="LDPIcon" SourceFile="..\..\..\images\ldpicon.ico"/>
+
     <Feature Id="RequiredResources" Title="Required" Level="1" ConfigurableDirectory='ADOBEPARENT'>
       <Condition Level="0">CERTONLY</Condition>
       <ComponentGroupRef Id="required_resources" />

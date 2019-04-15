@@ -174,7 +174,10 @@ function CreateFolders(){
 
 function SetSignLocation($root){
 
+	New-Item -Force -ItemType directory -Path $root | Out-Null
+	
     $root = Resolve-Path $root
+   
 
     $signing = ("$root\" + $options['signing']['signing_dir'])
     $fileinput =  ("$signing\" + $options['signing']['unsigned_dir'])
@@ -233,11 +236,12 @@ function BuildCertGui {
 
 function SignUST {   
 
-    $signfolder = SetSignLocation "bin"
+    $signfolder = SetSignLocation "ust_sign"
     $signed = ("$signfolder\" + $options['signing']['finished_dir'])
     $unsigned = ("$signfolder\" + $options['signing']['unsigned_dir'])
-
-    Move-Item ".\files\PreMapped\user-sync.exe" "$unsigned\user-sync.exe"
+	
+	Write-Host $signfolder
+    Move-Item "files\PreMapped\user-sync.exe" "$unsigned\user-sync.exe"
 
     if ($sign) {
         Sign $unsigned $signed "42992"        
@@ -281,7 +285,7 @@ function Sign($path, $output, $rule){
 function Run(){
 
     Log "Begin build process..... " "green"
-    if (!$nopre) {PreBuild}
+    #if (!$nopre) {PreBuild}
     
     SignUST
 #	BuildCertGui

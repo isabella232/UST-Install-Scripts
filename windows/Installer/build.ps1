@@ -124,12 +124,7 @@ function Fetch() {
         'ExamplesLink' = if ($examples) {$examples} Else {$options['examples_fallback']}
         'NotepadLink' = $current_cfg['NotepadLink']
         'VcRedistLink' = $current_cfg['VcRedistLink']
-        'Binaries' = @{}
-    }
-
-    foreach ($url in $releases){
-        $pyver = if ($url -match "(?<=-py).*(?=.zip)") {$Matches[0].Substring(0, 1) + "." + $Matches[0].Substring(1, 1)} Else {"2.7"}      
-        $config['Binaries'].Add($pyver, @{'USTLink' = $url;'PythonLink' = $options['python_urls'][$pyver]})  
+        'USTLink' = 'https://s3.us-east-2.amazonaws.com/adobe-ust-installer/ust_2.4.3_exeonly.zip'
     }
 
     return $config
@@ -139,14 +134,7 @@ function GetResources ($cfg) {
     GetResource $cfg.GUILink ($options['root'] + "\PreMapped\Utils")
     GetResource $cfg.NotepadLink ($options['root'] + "\PreMapped\Utils\Notepad++")
     GetResource $cfg.ExamplesLink ($options['root'] + "\PreMapped")
-    GetResource $cfg.VcRedistLink ($options['root'] + "\Managed")
-
-    foreach ($r in $cfg.Binaries.Keys){    
-    $pyFileName = "Python" + $r.SubString(0,1)  + $cfg.Binaries[$r].PythonLink.Substring($cfg.Binaries[$r].PythonLink.LastIndexOf("."))
-       GetResource $cfg.Binaries[$r].PythonLink ($options['root'] + "\Managed") $pyFileName
-        GetResource $cfg.Binaries[$r].USTLink ($options['root'] + "\Managed")
-        Move-Item ($options['root'] + "\Managed\user-sync.pex") ($options['root'] + "\Managed\user-sync-py"+$r.SubString(0,1)+".pex") -Force
-    }
+    GetResource $cfg.USTLink ($options['root'] + "\PreMapped")
 }
 
 function CopyFiles(){
@@ -164,8 +152,8 @@ function CopyFiles(){
         }    
     }
 
-    "cd /D `"%~dp0`"`r`npython user-sync.pex --process-groups --users mapped -t`r`npause" | Out-File ($options['root'] + "\PreMapped\Run_UST_Test_Mode.bat") -Force -Encoding ascii
-    "cd /D `"%~dp0`"`r`npython user-sync.pex --process-groups --users mapped" | Out-File ($options['root'] + "\PreMapped\Run_UST_Live.bat") -Force -Encoding ascii
+    "cd /D `"%~dp0`"`r`nuser-sync.exe --process-groups --users mapped -t`r`npause" | Out-File ($options['root'] + "\PreMapped\Run_UST_Test_Mode.bat") -Force -Encoding ascii
+    "cd /D `"%~dp0`"`r`nuser-sync.exe --process-groups --users mapped" | Out-File ($options['root'] + "\PreMapped\Run_UST_Live.bat") -Force -Encoding ascii
 
 }
 
@@ -181,8 +169,6 @@ function CreateFolders(){
 
     New-Item -ItemType directory -Path $options['root'] -Force | Out-Null
     foreach ($d in $dirlist){ New-Item -ItemType directory -Path ($options['root'] + "\$d") -Force  | Out-Null }
-
-
 }
 
 
@@ -201,7 +187,6 @@ function SetSignLocation($root){
     New-Item -ItemType directory -Path "$fileoutput" -Force | Out-Null
 
     return $signing
-
 }
 
 

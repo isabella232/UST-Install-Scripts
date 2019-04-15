@@ -39,9 +39,7 @@
       <UnpublishFeatures Suppress="yes" />
 
       <Custom Action='SetLongPaths' Before ='InstallFinalize'></Custom>
-
     </InstallExecuteSequence>
-
 
     <InstallUISequence>
 
@@ -51,16 +49,8 @@
       <ValidateProductID Suppress="yes" />
 
       <Custom Action='GetCalendarStart' After ='AppSearch'></Custom>
-      <Custom Action='CheckPythonVersion' Before ='ExecuteAction'>NOT CERTONLY</Custom>
-      <Custom Action='GenerateSSLCert' After='ExecuteAction'>NOT SKIPCERTGEN</Custom>
-      <Custom Action='InstallPython36' After='ExecuteAction'>NOT USEPYTHON2 AND INSTALLPYTHON AND NOT CERTONLY</Custom>
-      <Custom Action='InstallPython27' After='ExecuteAction'>USEPYTHON2 AND INSTALLPYTHON AND NOT CERTONLY</Custom>
-      <Custom Action='InstallVcRedist' After='ExecuteAction'>USEPYTHON2 AND INSTALLPYTHON AND NOT CERTONLY</Custom>
-
-      
+      <Custom Action='GenerateSSLCert' After='ExecuteAction'>NOT SKIPCERTGEN</Custom>      
     </InstallUISequence>
-
-
     
   </Fragment>
 </Wix>

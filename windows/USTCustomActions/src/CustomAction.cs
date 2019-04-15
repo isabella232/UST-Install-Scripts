@@ -8,12 +8,6 @@ namespace USTCustomActions
 
     public class CustomActions
     {
-        [CustomAction]
-        public static ActionResult CheckPythonVersion(Session session)
-        {
-            RegistryUtil.CheckPythonInstalled(session);
-            return ActionResult.Success;
-        }
 
         [CustomAction]
         public static ActionResult SslCertGen (Session session)
@@ -34,20 +28,6 @@ namespace USTCustomActions
 
             Util.WriteCredentials(c, session["INSTALLDIR"]);
 
-            return ActionResult.Success;
-        }
-
-        [CustomAction]
-        public static ActionResult InstallPython27Offline (Session session)
-        {
-            FileManager.InstallPackage(session, "Python2.msi", "ADDLOCAL=ALL /passive InstallAllUsers=1");
-            return ActionResult.Success;
-        }
-
-        [CustomAction]
-        public static ActionResult InstallVcRedist(Session session)
-        {       
-            FileManager.InstallPackage(session, "vcredist_x64.exe", "/q");
             return ActionResult.Success;
         }
 

@@ -124,7 +124,7 @@ function Fetch() {
         'ExamplesLink' = if ($examples) {$examples} Else {$options['examples_fallback']}
         'NotepadLink' = $current_cfg['NotepadLink']
         'VcRedistLink' = $current_cfg['VcRedistLink']
-        'USTLink' = 'https://s3.us-east-2.amazonaws.com/adobe-ust-installer/ust_2.4.3_exeonly.zip'
+        'USTLink' = 'https://s3.us-east-2.amazonaws.com/adobe-ust-installer/user-sync-unsigned.exe'
     }
 
     return $config
@@ -134,7 +134,7 @@ function GetResources ($cfg) {
     GetResource $cfg.GUILink ($options['root'] + "\PreMapped\Utils")
     GetResource $cfg.NotepadLink ($options['root'] + "\PreMapped\Utils\Notepad++")
     GetResource $cfg.ExamplesLink ($options['root'] + "\PreMapped")
-    GetResource $cfg.USTLink ($options['root'] + "\PreMapped")
+    GetResource $cfg.USTLink ($options['root'] + "\PreMapped") "user-sync.exe"
 }
 
 function CopyFiles(){
@@ -285,11 +285,11 @@ function Sign($path, $output, $rule){
 function Run(){
 
     Log "Begin build process..... " "green"
-    #if (!$nopre) {PreBuild}
+    if (!$nopre) {PreBuild}
     
     SignUST
-#	BuildCertGui
-#    BuildMSI    
+	BuildCertGui
+    BuildMSI    
 
     Log "BuildMSI finished.... " "green"
 

@@ -3,8 +3,10 @@ pipeline {
 	environment {
 		msi_name = 'AdobeUSTSetup.msi'
 		cert_name = 'AdobeIOCertgen.zip'
+		ust_name = 'user-sync.exe'
 		msi_file = "Installer/bin/Signing/Finished/${msi_name}"
 		cert_file = "CertGui/bin/Signing/Finished/${cert_name}"
+		ust_exe_file = "Installer/ust_sign/Signing/Finished/${ust_name}"
 	}
 	stages {
 		stage('Configure') {
@@ -28,6 +30,7 @@ pipeline {
 						withAWS(credentials:'aws-upload', region:'us-east-2') {
 							s3Upload(file:"$cert_file", bucket:"adobe-ust-installer", path:"$cert_name", acl:"PublicRead")
 							s3Upload(file:"$msi_file", bucket:"adobe-ust-installer", path:"$msi_name", acl:"PublicRead")
+							s3Upload(file:"$ust_exe_files", bucket:"adobe-ust-installer", path:"$ust_name", acl:"PublicRead")
 						}						
 					}
 				}

@@ -231,6 +231,23 @@ function BuildCertGui {
 
 }
 
+function SignUST {   
+
+    $signfolder = SetSignLocation "bin"
+    $signed = ("$signfolder\" + $options['signing']['finished_dir'])
+    $unsigned = ("$signfolder\" + $options['signing']['unsigned_dir'])
+
+    Move-Item ".\files\PreMapped\user-sync.exe" "$unsigned\user-sync.exe"
+
+    if ($sign) {
+        Sign $unsigned $signed "42992"        
+    } else {
+        Move-Item "$unsigned\*" $signed
+    } 
+
+    Copy-Item "$signed\*" "..\Installer\files\PreMapped\"
+}
+
 function BuildMSI(){
 
     Log "Starting build process..... " "green"
@@ -266,8 +283,9 @@ function Run(){
     Log "Begin build process..... " "green"
     if (!$nopre) {PreBuild}
     
-	BuildCertGui
-    BuildMSI    
+    SignUST
+#	BuildCertGui
+#    BuildMSI    
 
     Log "BuildMSI finished.... " "green"
 

@@ -4,6 +4,8 @@ bin/
 obj/
 .vscode/
 
+user-sync.exe
+
 required_resources.wxs
 USTCustomActions.CA.dll
 

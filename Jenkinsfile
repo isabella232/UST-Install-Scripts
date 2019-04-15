@@ -29,24 +29,24 @@ pipeline {
 						archiveArtifacts artifacts: "$cert_file", fingerprint: true		
 						withAWS(credentials:'aws-upload', region:'us-east-2') {
 							s3Upload(file:"$cert_file", bucket:"adobe-ust-installer", path:"$cert_name", acl:"PublicRead")
-							s3Upload(file:"$msi_file", bucket:"adobe-ust-installer", path:"$msi_name", acl:"PublicRead")
+							s3Upload(file:"$msi_file", bucket:"adobe-ust-installer", path:"AdobeUSTSetup_Standalone.msi", acl:"PublicRead")
 							s3Upload(file:"$ust_exe_files", bucket:"adobe-ust-installer", path:"$ust_name", acl:"PublicRead")
 						}						
 					}
 				}
 			}
 		}
-		stage('Release') {
-			when {expression { env.DO_RELEASE == 'true' }}
-			steps {
-				script{     
-					dir("windows") {			
-						env.msg = MESSAGE
-						sh 'powershell -File Installer/push_release.ps1 -filepaths "$msi_file","$cert_file" -message "$msg"'
-					}
-				}
-			}
-		}
+		// stage('Release') {
+		// 	when {expression { env.DO_RELEASE == 'true' }}
+		// 	steps {
+		// 		script{     
+		// 			dir("windows") {			
+		// 				env.msg = MESSAGE
+		// 				sh 'powershell -File Installer/push_release.ps1 -filepaths "$msi_file","$cert_file" -message "$msg"'
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 	post { always { deleteDir()}}

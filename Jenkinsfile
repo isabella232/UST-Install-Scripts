@@ -45,8 +45,8 @@ pipeline {
 							s3Upload(file:"$ust_exe_file", bucket:"adobe-ust-installer", path:"$ust_name", acl:"PublicRead")
 						}	
 
-						env.msg = MESSAGE
-						sh 'powershell -File Installer/push_release.ps1 -filepaths "$msi_file","$cert_file" -message "$msg"'
+						// env.msg = MESSAGE
+						// sh 'powershell -File Installer/push_release.ps1 -filepaths "$msi_file","$cert_file" -message "$msg"'
 					}
 				}
 			}

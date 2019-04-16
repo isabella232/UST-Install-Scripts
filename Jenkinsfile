@@ -15,6 +15,7 @@ pipeline {
 					env.MESSAGE = sh(returnStdout: true, script: 'git log -1 --pretty=format:%s') + "\n\n" + params.message
 					env.DO_RELEASE = env.MESSAGE.matches("release:" + "(.*)") || params.release == "true"
 					env.MESSAGE = java.net.URLEncoder.encode(env.MESSAGE, "UTF-8")
+					print("Release: " env.DO_RELEASE)
 				}
 			}
 		}	
@@ -27,26 +28,29 @@ pipeline {
 					dir("windows"){
 						archiveArtifacts artifacts: "$msi_file", fingerprint: true
 						archiveArtifacts artifacts: "$cert_file", fingerprint: true		
-						withAWS(credentials:'aws-upload', region:'us-east-2') {
-							s3Upload(file:"$cert_file", bucket:"adobe-ust-installer", path:"$cert_name", acl:"PublicRead")
-							s3Upload(file:"$msi_file", bucket:"adobe-ust-installer", path:"AdobeUSTSetup_Standalone.msi", acl:"PublicRead")
-							s3Upload(file:"$ust_exe_files", bucket:"adobe-ust-installer", path:"$ust_name", acl:"PublicRead")
-						}						
+						archiveArtifacts artifacts: "$ust_exe_file", fingerprint: true						
 					}
 				}
 			}
 		}
-		// stage('Release') {
-		// 	when {expression { env.DO_RELEASE == 'true' }}
-		// 	steps {
-		// 		script{     
-		// 			dir("windows") {			
-		// 				env.msg = MESSAGE
-		// 				sh 'powershell -File Installer/push_release.ps1 -filepaths "$msi_file","$cert_file" -message "$msg"'
-		// 			}
-		// 		}
-		// 	}
-		// }
+		stage('Release') {
+			when {expression { env.DO_RELEASE == 'true' }}
+			steps {
+				script{     
+					dir("windows") {
+
+						withAWS(credentials:'aws-upload', region:'us-east-2') {
+							s3Upload(file:"$cert_file", bucket:"adobe-ust-installer", path:"$cert_name", acl:"PublicRead")
+							s3Upload(file:"$msi_file", bucket:"adobe-ust-installer", path:"AdobeUSTSetup_Standalone.msi", acl:"PublicRead")
+							s3Upload(file:"$ust_exe_file", bucket:"adobe-ust-installer", path:"$ust_name", acl:"PublicRead")
+						}	
+
+						env.msg = MESSAGE
+						sh 'powershell -File Installer/push_release.ps1 -filepaths "$msi_file","$cert_file" -message "$msg"'
+					}
+				}
+			}
+		}
 	}
 
 	post { always { deleteDir()}}

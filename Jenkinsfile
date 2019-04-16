@@ -12,7 +12,8 @@ pipeline {
 		stage('Configure') {
 			steps {
 				script{
-					env.MESSAGE = sh(returnStdout: true, script: 'git log -1 --pretty=format:%s') + "\n\n" + params.message
+					env.MESSAGE = sh(returnStdout: true, script: 'git log -1 --pretty=format:%s') //+ "\n\n" + params.message
+
 					env.DO_RELEASE = env.MESSAGE.matches("release:" + "(.*)") || params.release == "true"
 					env.MESSAGE = java.net.URLEncoder.encode(env.MESSAGE, "UTF-8")
 					echo "Release: " + env.DO_RELEASE

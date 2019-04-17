@@ -42,8 +42,6 @@
       <Condition Level="0">CERTONLY</Condition>
       <ComponentGroupRef Id="required_resources" />
       <ComponentRef Id="Permissions"/>
-      <ComponentRef Id="SetPexRoot" />
-      <ComponentRef Id="PexFolder" />
       <ComponentRef Id="RemoveExisting" />
       <ComponentRef Id="AddShortcuts" />
     </Feature>

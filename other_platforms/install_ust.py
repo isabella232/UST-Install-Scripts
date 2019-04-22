@@ -399,7 +399,7 @@ class SslCertGenerator:
         if len(subject['cc']) != 2:
             valid = False
             self.logger.info("Country code must be exactly 2 characters long...")
-        if re.search('[^A-Za-z]', subject['cc']):
+        if re.search('[^A-Za-z ]', subject['cc']):
             valid = False
             self.logger.info("Only letters allowed in country code " + subject['cc'] + ", press re-enter...")
         for k in subject:

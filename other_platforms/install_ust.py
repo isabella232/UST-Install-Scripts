@@ -403,7 +403,7 @@ class SslCertGenerator:
             valid = False
             self.logger.info("Only letters allowed in country code " + subject['cc'] + ", press re-enter...")
         for k in subject:
-            if re.search('[^A-Za-z0-9@._]', subject[k]):
+            if re.search('[^A-Za-z0-9@._ ]', subject[k]):
                 valid = False
                 self.logger.info("Illegal character in " + self.keys[k] + ": " + subject[k] + ", press re-enter...")
         return valid

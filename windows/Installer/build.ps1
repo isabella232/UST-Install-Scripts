@@ -124,7 +124,7 @@ function Fetch() {
         'ExamplesLink' = if ($examples) {$examples} Else {$options['examples_fallback']}
         'NotepadLink' = $current_cfg['NotepadLink']
         'VcRedistLink' = $current_cfg['VcRedistLink']
-        'USTLink' = 'https://s3.us-east-2.amazonaws.com/adobe-ust-installer/user-sync-unsigned.exe'
+        'USTLink' = 'https://github.com/adobe-dmeservices/user-sync.py/releases/download/v2.5.0-standalone/user-sync-v2.5.0-standalone-win64.exe'
     }
 
     return $config

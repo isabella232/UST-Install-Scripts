@@ -1,0 +1,7 @@
+
+install:
+- ps: choco install make
+
+build_script:
+- ps: .appveyor\build.ps1
+

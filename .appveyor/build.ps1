@@ -1,2 +1,3 @@
-Write-Host $PWD
-.\windows\Installer\build.ps1
+
+cd windows\Installer
+.\build.ps1

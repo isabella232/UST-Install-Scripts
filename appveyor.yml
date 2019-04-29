@@ -3,3 +3,5 @@
 build_script:
 - ps: .appveyor\build.ps1
 
+artifacts:
+- path: bin\en-us\*

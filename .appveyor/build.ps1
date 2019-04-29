@@ -1,3 +1,1 @@
-
-
-Write-Host  "Success"
+..\windows\Installer\build.ps1
